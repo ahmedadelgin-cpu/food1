@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة استلام الطلبات | مطعم أبو كيان</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF5E36;
+            --primary-soft: #FFF3F0;
+            --bg-page: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-dark: #0F172A;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        #loginScreen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .form-group { text-align: right; margin-top: 18px; }
+        .form-group label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 700; }
+
+        .form-control {
+            width: 100%;
+            padding: 13px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: #F8FAFC;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .login-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 25px;
+        }
+
+        #dashboardScreen { display: none; }
+
+        header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .live-tag {
+            background: #DCFCE7;
+            color: #15803D;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #22C55E;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.4); opacity: 1; }
+        }
+
+        /* زر الرجوع للقائمة الرئيسية */
+        .btn-home-link {
+            background: var(--primary-soft);
+            color: var(--primary);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 13.5px;
+            border: 1.5px solid #FFDCD5;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.25s;
+        }
+
+        .btn-home-link:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            padding: 20px 5% 15px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 18px;
+            padding: 16px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            user-select: none;
+        }
+
+        .stat-card:hover { transform: translateY(-3px); }
+
+        .stat-card.active-tab {
+            border-color: var(--primary);
+            background: var(--primary-soft);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .stat-value { font-size: 26px; font-weight: 900; }
+
+        .val-total { color: var(--primary); }
+        .val-pending { color: #D97706; }
+        .val-cooking { color: #0284C7; }
+        .val-delivery { color: #9333EA; }
+        .val-done { color: #16A34A; }
+        .val-revenue { color: #0F172A; }
+
+        .search-container {
+            padding: 5px 5% 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-box-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+        }
+
+        .order-search-input {
+            width: 100%;
+            padding: 14px 22px;
+            padding-right: 50px;
+            border-radius: 16px;
+            border: 1.5px solid var(--border);
+            background: white;
+            font-size: 15px;
+            font-weight: 700;
+            outline: none;
+        }
+
+        .search-icon-inside {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 19px;
+            color: var(--text-muted);
+        }
+
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 20px;
+            padding: 10px 5% 50px;
+        }
+
+        .order-box {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .order-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            gap: 10px;
+        }
+
+        .order-id { font-weight: 900; font-size: 17px; color: var(--primary); }
+        .order-time { font-size: 12px; color: var(--text-muted); display: block; margin-top: 2px; }
+
+        .status-select-top {
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 800;
+            border: 1.5px solid transparent;
+            cursor: pointer;
+            outline: none;
+            max-width: 170px;
+        }
+
+        .status-pending { background: #FEF3C7; color: #D97706; border-color: #FDE68A; }
+        .status-cooking { background: #E0F2FE; color: #0284C7; border-color: #BAE6FD; }
+        .status-delivery { background: #F3E8FF; color: #9333EA; border-color: #E9D5FF; }
+        .status-done { background: #DCFCE7; color: #15803D; border-color: #BBF7D0; }
+        .status-cancelled { background: #FEE2E2; color: #DC2626; border-color: #FCA5A5; }
+
+        .items-badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 12px 0;
+            background: #F8FAFC;
+            padding: 10px;
+            border-radius: 12px;
+        }
+
+        .item-pill {
+            background: white;
+            border: 1px solid #CBD5E1;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .order-footer-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed var(--border);
+            padding-top: 12px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. تسجيل الدخول -->
+    <div id="loginScreen">
+        <div class="login-card">
+            <div style="font-size: 40px; margin-bottom: 10px;">👨‍🍳</div>
+            <h1 class="login-title">مطعم أبو كيان</h1>
+            <p style="color: var(--text-muted); font-size: 13px;">شاشة المطبخ والطلبات</p>
+
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" id="loginEmail" class="form-control" placeholder="ahmed.adelgin@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label>الرقم السري</label>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="login-btn">دخول لشاشة الطلبات ➔</button>
+            </form>
+
+            <div style="background:#FFF3F0; padding:12px; border-radius:12px; margin-top:20px; font-size:13px; color:#991B1B; text-align:right;">
+                <strong>بيانات الدخول:</strong><br>
+                الإيميل: <code>ahmed.adelgin@gmail.com</code><br>
+                الباسورد: <code>01122278442</code>
+            </div>
+
+            <!-- زر العودة للمينيو من شاشة الدخول -->
+            <div style="margin-top: 20px;">
+                <a href="index.html" style="color: var(--primary); text-decoration: none; font-size: 13.5px; font-weight: 800;">
+                    ➔ العودة لصفحة المينيو الرئيسية
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. اللوحة الرئيسية للمطبخ -->
+    <div id="dashboardScreen">
+        <header>
+            <div style="display:flex; align-items:center; gap:15px;">
+                <h2 style="color:var(--primary); font-weight:900;">🍔 مطعم أبو كيان (شاشة المطبخ)</h2>
+                <div class="live-tag">
+                    <span class="pulse-dot"></span>
+                    متصل بالطلبات لحظياً
+                </div>
+            </div>
+
+            <div style="display:flex; gap:10px; align-items:center;">
+                <!-- زر الرجوع إلى القائمة الرئيسية المطلوب -->
+                <a href="index.html" class="btn-home-link" title="الذهاب لصفحة العميل والمينيو">
+                    🏠 القائمة الرئيسية
+                </a>
+
+                <button onclick="clearHistory()" style="background:#FEE2E2; color:#DC2626; border:none; padding:8px 16px; border-radius:10px; font-weight:700; cursor:pointer;">
+                    🗑️ مسح الكل
+                </button>
+                <button onclick="logout()" style="background:#F1F5F9; border:none; padding:8px 16px; border-radius:10px; font-weight:700; cursor:pointer;">
+                    🚪 خروج
+                </button>
+            </div>
+        </header>
+
+        <div class="stats-bar">
+            <div class="stat-card active-tab" id="tab-all" onclick="filterByTab('الكل', this)">
+                <div class="stat-label">📋 إجمالي الطلبات</div>
+                <div id="statTotal" class="stat-value val-total">0</div>
+            </div>
+            <div class="stat-card" id="tab-pending" onclick="filterByTab('الانتظار', this)">
+                <div class="stat-label">⏳ قيد الانتظار</div>
+                <div id="statPending" class="stat-value val-pending">0</div>
+            </div>
+            <div class="stat-card" id="tab-cooking" onclick="filterByTab('التحضير', this)">
+                <div class="stat-label">👨‍🍳 جاري التحضير</div>
+                <div id="statCooking" class="stat-value val-cooking">0</div>
+            </div>
+            <div class="stat-card" id="tab-delivery" onclick="filterByTab('الدليفري', this)">
+                <div class="stat-label">🛵 مع الدليفري</div>
+                <div id="statDelivery" class="stat-value val-delivery">0</div>
+            </div>
+            <div class="stat-card" id="tab-done" onclick="filterByTab('التسليم', this)">
+                <div class="stat-label">✅ تم التسليم</div>
+                <div id="statDone" class="stat-value val-done">0</div>
+            </div>
+            <div class="stat-card" style="cursor:default;">
+                <div class="stat-label">💰 إجمالي المبيعات</div>
+                <div id="statRevenue" class="stat-value val-revenue">0 ج.م</div>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <div class="search-box-wrapper">
+                <span class="search-icon-inside">🔍</span>
+                <input type="text" id="orderSearchInput" class="order-search-input" placeholder="ابحث برقم الطلب (مثال: 9048) أو برقم هاتف العميل (01xxxxxxxxx)..." oninput="renderOrders()">
+            </div>
+        </div>
+
+        <main class="orders-grid" id="ordersContainer"></main>
+    </div>
+
+    <script>
+        let currentFilter = 'الكل';
+        let previousOrdersCount = 0;
+
+        window.onload = function() {
+            if (sessionStorage.getItem('abu_kayan_logged') === 'true') {
+                showDashboard();
+            }
+        };
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+            const pass = document.getElementById('loginPassword').value.trim();
+
+            if (
+                (email === "ahmed.adelgin@gmail.com" || email === "ahmed.adelgin@gmil.com") && 
+                pass === "01122278442"
+            ) {
+                sessionStorage.setItem('abu_kayan_logged', 'true');
+                showDashboard();
+            } else {
+                alert("بيانات الدخول غير صحيحة! يرجى إدخال الإيميل والباسورد الصحيحين.");
+            }
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboardScreen').style.display = 'block';
+            renderOrders();
+            startLiveListener();
+        }
+
+        function logout() {
+            sessionStorage.removeItem('abu_kayan_logged');
+            location.reload();
+        }
+
+        function filterByTab(type, element) {
+            currentFilter = type;
+            document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active-tab'));
+            if(element) element.classList.add('active-tab');
+            renderOrders();
+        }
+
+        function getStatusClass(status) {
+            if (!status || status.includes('الانتظار')) return 'status-pending';
+            if (status.includes('المطبخ') || status.includes('التحضير')) return 'status-cooking';
+            if (status.includes('الدليفري') || status.includes('الطريق')) return 'status-delivery';
+            if (status.includes('التسليم') || status.includes('بنجاح')) return 'status-done';
+            if (status.includes('ملغي')) return 'status-cancelled';
+            return 'status-pending';
+        }
+
+        function renderOrders() {
+            const container = document.getElementById('ordersContainer');
+            const orders = JSON.parse(localStorage.getItem('abu_kayan_orders')) || [];
+
+            const totalCount = orders.length;
+            const pendingCount = orders.filter(o => !o.status || o.status.includes('الانتظار')).length;
+            const cookingCount = orders.filter(o => o.status && (o.status.includes('التحضير') || o.status.includes('المطبخ'))).length;
+            const deliveryCount = orders.filter(o => o.status && (o.status.includes('الدليفري') || o.status.includes('الطريق'))).length;
+            const doneCount = orders.filter(o => o.status && (o.status.includes('التسليم') || o.status.includes('بنجاح'))).length;
+
+            document.getElementById('statTotal').innerText = totalCount;
+            document.getElementById('statPending').innerText = pendingCount;
+            document.getElementById('statCooking').innerText = cookingCount;
+            document.getElementById('statDelivery').innerText = deliveryCount;
+            document.getElementById('statDone').innerText = doneCount;
+
+            const totalRev = orders.filter(o => !o.status.includes('ملغي')).reduce((sum, o) => {
+                const num = parseInt(o.amount || o.total) || 0;
+                return sum + num;
+            }, 0);
+            document.getElementById('statRevenue').innerText = `${totalRev} ج.م`;
+
+            let filteredOrders = orders;
+            if (currentFilter !== 'الكل') {
+                filteredOrders = orders.filter(o => {
+                    const st = o.status || 'قيد الانتظار';
+                    return st.includes(currentFilter);
+                });
+            }
+
+            const searchVal = document.getElementById('orderSearchInput')?.value.trim() || '';
+            if (searchVal) {
+                filteredOrders = filteredOrders.filter(o => {
+                    const orderNum = String(o.orderNo || o.orderId || '');
+                    const phoneNum = String(o.customer?.phone || '');
+                    const custName = String(o.customer?.name || '');
+                    return orderNum.includes(searchVal) || phoneNum.includes(searchVal) || custName.includes(searchVal);
+                });
+            }
+
+            if (filteredOrders.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align:center; padding: 60px; color:var(--text-muted); font-size:16px;">
+                        لا توجد طلبات في هذا القسم.
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = filteredOrders.map((ord) => {
+                const originalIndex = orders.findIndex(o => (o.orderNo || o.orderId) === (ord.orderNo || ord.orderId));
+                const orderId = ord.orderNo || ord.orderId || Math.floor(1000 + Math.random() * 9000);
+                const orderPrice = ord.amount || ord.total || '0 ج.م';
+                const orderPay = ord.paymentMethod || ord.payment || 'كاش عند الاستلام';
+                const currentStatus = ord.status || 'قيد الانتظار ⏳';
+                const statusClass = getStatusClass(currentStatus);
+                const isCancelled = currentStatus.includes('ملغي');
+
+                return `
+                <div class="order-box" style="${isCancelled ? 'border-color:#FCA5A5; background:#FFF8F8;' : ''}">
+                    <div>
+                        <div class="order-top">
+                            <div>
+                                <span class="order-id">طلب #${orderId}</span>
+                                <span class="order-time">⏰ ${ord.time || 'الآن'}</span>
+                            </div>
+                            
+                            <select class="status-select-top ${statusClass}" onchange="updateOrderStatus(${originalIndex}, this.value)">
+                                <option value="قيد الانتظار ⏳" ${currentStatus.includes('الانتظار') ? 'selected' : ''}>⏳ قيد الانتظار</option>
+                                <option value="جاري التحضير في المطبخ 👨‍🍳" ${currentStatus.includes('التحضير') ? 'selected' : ''}>👨‍🍳 جاري التحضير في المطبخ</option>
+                                <option value="خرج مع الدليفري 🛵" ${currentStatus.includes('الدليفري') ? 'selected' : ''}>🛵 خرج مع الدليفري</option>
+                                <option value="تم التسليم بنجاح ✅" ${currentStatus.includes('التسليم') ? 'selected' : ''}>✅ تم التسليم بنجاح</option>
+                                <option value="ملغي بخصم 10% ❌" ${isCancelled ? 'selected' : ''}>❌ ملغي (خصم 10%)</option>
+                            </select>
+                        </div>
+                        
+                        <div style="font-weight:700; margin-bottom:4px;">👤 ${ord.customer?.name || 'عميل'}</div>
+                        <div style="font-size:13px; color:var(--text-muted); margin-bottom:4px;">
+                            📞 <a href="tel:${ord.customer?.phone}" style="color:var(--primary); text-decoration:none; font-weight:bold;">${ord.customer?.phone || 'بدون هاتف'}</a>
+                        </div>
+                        <div style="font-size:13px; color:var(--text-muted); margin-bottom:8px;">
+                            📍 ${ord.customer?.address || 'استلام داخل المطعم'}
+                        </div>
+                        <div style="font-size:12.5px; font-weight:bold; color:#1E293B;">
+                            💳 الدفع: ${orderPay}
+                        </div>
+
+                        ${isCancelled ? `
+                            <div style="background:#FEE2E2; border:1px solid #FCA5A5; color:#991B1B; padding:8px 12px; border-radius:10px; margin-top:10px; font-size:12.5px;">
+                                ⚠️ <strong>طلب ملغي من العميل:</strong><br>
+                                رسوم الإلغاء للمطعم (10%): <strong>${ord.cancellationFee || 0} ج.م</strong><br>
+                                المبلغ المسترد للعميل: <strong>${ord.refundAmount || 0} ج.م</strong>
+                            </div>
+                        ` : ''}
+
+                        <div class="items-badge-container">
+                            ${(ord.items || []).map(i => `<span class="item-pill">1x ${i.name} ${i.addonsText || ''}</span>`).join('')}
+                        </div>
+                    </div>
+
+                    <div class="order-footer-price">
+                        <span style="font-weight:bold; font-size:14px;">الحساب:</span>
+                        <span style="color:var(--primary); font-weight:900; font-size:19px;">${orderPrice}</span>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function updateOrderStatus(index, newStatus) {
+            let orders = JSON.parse(localStorage.getItem('abu_kayan_orders')) || [];
+            if(orders[index]) {
+                orders[index].status = newStatus;
+                localStorage.setItem('abu_kayan_orders', JSON.stringify(orders));
+                renderOrders();
+            }
+        }
+
+        function clearHistory() {
+            if(confirm("هل أنت متأكد من مسح جميع طلبات اليوم؟")) {
+                localStorage.removeItem('abu_kayan_orders');
+                renderOrders();
+            }
+        }
+
+        function playChime() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = "sine";
+                osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.8);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.8);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        function startLiveListener() {
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'abu_kayan_orders') {
+                    renderOrders();
+                    playChime();
+                }
+            });
+
+            setInterval(() => {
+                const orders = JSON.parse(localStorage.getItem('abu_kayan_orders')) || [];
+                if (orders.length > previousOrdersCount) {
+                    playChime();
+                    renderOrders();
+                }
+                previousOrdersCount = orders.length;
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

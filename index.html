@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مطعم أبو كيان | الطعم الأصيل 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF5E36;
+            --primary-hover: #E04822;
+            --primary-soft: #FFF1EE;
+            --secondary: #FFB319;
+            --bg-page: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-dark: #0F172A;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+            --radius-lg: 22px;
+            --radius-md: 14px;
+            --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.03);
+            --shadow-hover: 0 14px 30px rgba(255, 94, 54, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            padding-bottom: 60px;
+        }
+
+        /* أزرار الصعود والنزول صف صف */
+        .scroll-nav-container {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 999;
+        }
+
+        .scroll-nav-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1.5px solid var(--border);
+            color: var(--text-dark);
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scroll-nav-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.12);
+            box-shadow: 0 6px 20px rgba(255, 94, 54, 0.35);
+        }
+
+        #devActiveBanner {
+            display: none;
+            background: #FEF2F2;
+            border-bottom: 1px solid #FCA5A5;
+            color: #991B1B;
+            padding: 12px 6%;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 800;
+            position: sticky;
+            top: 0;
+            z-index: 101;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            list-style: none;
+        }
+
+        .nav-item {
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: 0.3s;
+            font-size: 14.5px;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            color: var(--primary);
+            background: var(--primary-soft);
+        }
+
+        .header-btns {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-modern {
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--text-dark);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.3s;
+            font-size: 13.5px;
+            text-decoration: none;
+        }
+
+        .btn-modern:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-cart {
+            background: var(--primary);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(255, 94, 54, 0.3);
+        }
+
+        .btn-cart:hover {
+            background: var(--primary-hover);
+            color: white;
+        }
+
+        .page-view {
+            display: none;
+            animation: fadeIn 0.35s ease;
+        }
+        .page-view.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero {
+            padding: 45px 6% 40px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #FEF3C7;
+            color: #D97706;
+            padding: 7px 18px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .hero-title {
+            font-size: 42px;
+            font-weight: 900;
+            line-height: 1.25;
+            margin-bottom: 18px;
+            color: #0F172A;
+        }
+        .hero-title span { color: var(--primary); }
+
+        .hero-desc {
+            color: var(--text-muted);
+            font-size: 15.5px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            max-width: 520px;
+        }
+
+        .hero-main-img {
+            width: 100%;
+            max-width: 440px;
+            border-radius: 35px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.07);
+            border: 6px solid #fff;
+        }
+
+        .quick-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            padding: 10px 6% 35px;
+        }
+
+        .quick-cat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 14px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .quick-cat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .quick-cat-icon { font-size: 30px; margin-bottom: 6px; }
+        .quick-cat-title { font-weight: 800; font-size: 13px; }
+
+        .menu-page-header {
+            background: white;
+            padding: 30px 6% 20px;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .search-bar-wrap { max-width: 500px; margin: 15px auto 0; }
+        .search-input {
+            width: 100%;
+            padding: 14px 22px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            background: var(--bg-page);
+            font-size: 14.5px;
+            outline: none;
+        }
+
+        .categories-filter {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 20px 6% 15px;
+            scrollbar-width: none;
+        }
+
+        .cat-chip {
+            padding: 9px 18px;
+            border-radius: 30px;
+            background: white;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: 0.3s;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .cat-chip.active, .cat-chip:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
+            gap: 22px;
+            padding: 20px 6% 60px;
+        }
+
+        .food-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            transition: 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .food-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .food-img { width: 100%; height: 185px; object-fit: cover; }
+        .food-card-body {
+            padding: 18px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .category-tag {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--primary);
+            background: var(--primary-soft);
+            padding: 4px 10px;
+            border-radius: 8px;
+            width: fit-content;
+            margin-bottom: 6px;
+        }
+
+        .food-name { font-size: 16.5px; font-weight: 800; margin-bottom: 5px; }
+        .food-desc { font-size: 12.5px; color: var(--text-muted); margin-bottom: 15px; line-height: 1.5; }
+        
+        .food-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed var(--border);
+            padding-top: 12px;
+        }
+
+        .food-price { font-size: 19px; font-weight: 900; color: #0F172A; }
+
+        .btn-customize {
+            background: var(--primary-soft);
+            color: var(--primary);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 13px;
+        }
+
+        .btn-customize:hover { background: var(--primary); color: white; }
+
+        .dev-delete-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #EF4444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: bold;
+            display: none;
+            z-index: 10;
+        }
+
+        .tracker-container {
+            max-width: 650px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 28px;
+            padding: 35px 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+            border: 1px solid var(--border);
+        }
+
+        .tracker-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 35px 0 25px;
+        }
+
+        .tracker-line {
+            position: absolute;
+            top: 24px;
+            left: 8%;
+            right: 8%;
+            height: 4px;
+            background: #E2E8F0;
+            z-index: 1;
+        }
+
+        .tracker-line-fill {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 0%;
+            background: var(--primary);
+            transition: width 0.5s ease;
+        }
+
+        .step-node {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 75px;
+        }
+
+        .step-circle {
+            width: 48px;
+            height: 48px;
+            background: white;
+            border: 3px solid #CBD5E1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin: 0 auto 8px;
+            transition: 0.3s;
+        }
+
+        .step-node.active .step-circle {
+            border-color: var(--primary);
+            background: var(--primary-soft);
+            box-shadow: 0 0 15px rgba(255, 94, 54, 0.4);
+        }
+
+        .step-node.completed .step-circle {
+            background: #10B981;
+            border-color: #10B981;
+            color: white;
+        }
+
+        .step-text {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-muted);
+        }
+
+        .step-node.active .step-text { color: var(--primary); }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-box {
+            background: white;
+            width: 90%;
+            max-width: 520px;
+            max-height: 90vh;
+            border-radius: 26px;
+            padding: 26px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--text-muted);
+        }
+
+        .addon-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 11px 0;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .counter-btn-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .counter-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: #F8FAFC;
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .counter-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* كارت اختيار سرعة التوصيل */
+        .delivery-speed-card {
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            padding: 11px;
+            text-align: center;
+            transition: 0.25s;
+            background: #FAFCFE;
+            cursor: pointer;
+        }
+
+        input[name="deliverySpeed"]:checked + .delivery-speed-card {
+            border-color: var(--primary);
+            background: var(--primary-soft);
+            box-shadow: 0 4px 15px rgba(255, 94, 54, 0.15);
+        }
+
+        .checkout-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 18px;
+        }
+
+        @media (max-width: 850px) {
+            .hero { grid-template-columns: 1fr; text-align: center; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- أزرار الصعود والنزول صف صف (وحدة وحدة) -->
+    <div class="scroll-nav-container">
+        <button class="scroll-nav-btn" onclick="scrollStep(-450)" title="صعود صف لأعلى">▲</button>
+        <button class="scroll-nav-btn" onclick="scrollStep(450)" title="نزول صف لأسفل">▼</button>
+    </div>
+
+    <!-- شريط وضع المبرمج -->
+    <div id="devActiveBanner">
+        <span>⚠️ وضع المبرمج مفعّل حالياً (يمكنك حذف أي وجبة أو إضافة أصناف جديدة).</span>
+        <button onclick="lockDevMode()" style="background:#DC2626; color:white; border:none; padding:7px 16px; border-radius:10px; font-weight:800; cursor:pointer;">🔒 قفل التعديل والحذف الآن</button>
+    </div>
+
+    <!-- الهيدر -->
+    <header>
+        <div class="brand-logo" onclick="switchPage('home')">
+            🍔 مطعم أبو كيان
+        </div>
+
+        <ul class="nav-links">
+            <li class="nav-item active" id="nav-home" onclick="switchPage('home')">الرئيسية</li>
+            <li class="nav-item" id="nav-menu" onclick="switchPage('menu')">قائمة الطعام (147 صنف)</li>
+            <li class="nav-item" id="nav-track" onclick="switchPage('track')">📍 متابعة الطلب</li>
+        </ul>
+
+        <div class="header-btns">
+            <button id="devHeaderBtn" class="btn-modern" onclick="authDeveloper()">⚙️ مبرمج الصفحة</button>
+            <a href="orders.html" target="_blank" class="btn-modern" style="background:#0F172A; color:white;">📋 شاشة طلبات المحل ↗</a>
+            <button class="btn-modern btn-cart" onclick="openCartModal()">🛒 السلة (<span id="cartCountBadge">0</span>)</button>
+        </div>
+    </header>
+
+    <!-- 1. الرئيسية -->
+    <div id="homePage" class="page-view active">
+        <section class="hero">
+            <div class="hero-text">
+                <span class="hero-badge">✨ أضخم منيو لعام 2026</span>
+                <h1 class="hero-title">أشهى البرجر والمشويات والمشروبات مع <span>أبو كيان</span></h1>
+                <p class="hero-desc">استمتع بتشكيلة ضخمة من 147 صنفاً تشمل 7 أقسام متكاملة: برجر لحم بلدي، دجاج مقرمش، وجبات ميكس جريل، بيتزا ومقبلات، وأكثر من 60 نوع موهيتو وعصائر ومشروبات ساخنة وباردة!</p>
+                <div style="display:flex; gap:12px;">
+                    <button class="btn-modern btn-cart" style="padding: 14px 26px; font-size:15px;" onclick="switchPage('menu')">🍽️ تصفح المينيو الكامل</button>
+                    <button class="btn-modern" style="padding: 14px 22px; font-size:15px;" onclick="switchPage('track')">📍 تتبع أوردرك</button>
+                </div>
+            </div>
+            <div style="text-align:center;">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=700" class="hero-main-img" alt="أكل أبو كيان">
+            </div>
+        </section>
+
+        <!-- الأقسام الـ 7 الرئيسية بالبداية -->
+        <div class="quick-categories">
+            <div class="quick-cat-card" onclick="goToMenuCategory('ساندوتشات برجر ولحوم')">
+                <div class="quick-cat-icon">🍔</div>
+                <div class="quick-cat-title">برجر ولحوم (21)</div>
+            </div>
+            <div class="quick-cat-card" onclick="goToMenuCategory('دجاج ومقرمشات')">
+                <div class="quick-cat-icon">🍗</div>
+                <div class="quick-cat-title">دجاج ومقرمشات (21)</div>
+            </div>
+            <div class="quick-cat-card" onclick="goToMenuCategory('وجبات ومكس جريل')">
+                <div class="quick-cat-icon">🥩</div>
+                <div class="quick-cat-title">وجبات ومشويات (21)</div>
+            </div>
+            <div class="quick-cat-card" onclick="goToMenuCategory('بيتزا ومقبلات')">
+                <div class="quick-cat-icon">🍕</div>
+                <div class="quick-cat-title">بيتزا ومقبلات (21)</div>
+            </div>
+            <div class="quick-cat-card" onclick="goToMenuCategory('موهيتو ومنعشات')">
+                <div class="quick-cat-icon">🍹</div>
+                <div class="quick-cat-title">موهيتو ومنعشات (21)</div>
+            </div>
+            <div class="quick-cat-card" onclick="goToMenuCategory('عصائر وسموذي')">
+                <div class="quick-cat-icon">🥤</div>
+                <div class="quick-cat-title">عصائر وسموذي (21)</div>
+            </div>
+            <div class="quick-cat-card" onclick="goToMenuCategory('غازية وساخنة')">
+                <div class="quick-cat-icon">☕</div>
+                <div class="quick-cat-title">غازية وساخنة (21)</div>
+            </div>
+        </div>
+
+        <section style="padding: 10px 6% 50px;">
+            <h2 style="font-size:24px; font-weight:900; margin-bottom:20px;">⭐ الأكثر طلباً في أبو كيان</h2>
+            <div class="food-grid" id="featuredGrid"></div>
+        </section>
+    </div>
+
+    <!-- 2. صفحة المينيو الشامل -->
+    <div id="menuPage" class="page-view">
+        <div class="menu-page-header">
+            <h1 style="font-size: 32px; font-weight: 900;">قائمة طعام ومشروبات أبو كيان 📖</h1>
+            <p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">147 صنفاً متوفراً وموزعاً على 7 أقسام رئيسية</p>
+            <div class="search-bar-wrap">
+                <input type="text" id="foodSearchInput" class="search-input" placeholder="🔍 ابحث عن أي صنف، أكلة، مشروب، أو صوص..." onkeyup="filterFoods()">
+            </div>
+        </div>
+
+        <div class="categories-filter" id="menuFilterPills">
+            <button class="cat-chip active" onclick="selectMenuCategory('الكل')">الكل 🌟 (147)</button>
+            <button class="cat-chip" onclick="selectMenuCategory('ساندوتشات برجر ولحوم')">🍔 ساندوتشات برجر ولحوم</button>
+            <button class="cat-chip" onclick="selectMenuCategory('دجاج ومقرمشات')">🍗 دجاج ومقرمشات</button>
+            <button class="cat-chip" onclick="selectMenuCategory('وجبات ومكس جريل')">🥩 وجبات ومشويات</button>
+            <button class="cat-chip" onclick="selectMenuCategory('بيتزا ومقبلات')">🍕 بيتزا ومقبلات</button>
+            <button class="cat-chip" onclick="selectMenuCategory('موهيتو ومنعشات')">🍹 موهيتو ومنعشات</button>
+            <button class="cat-chip" onclick="selectMenuCategory('عصائر وسموذي')">🥤 عصائر وسموذي</button>
+            <button class="cat-chip" onclick="selectMenuCategory('غازية وساخنة')">☕ غازية وساخنة</button>
+        </div>
+
+        <div class="food-grid" id="allMenuGrid"></div>
+    </div>
+
+    <!-- 3. متابعة الطلب -->
+    <div id="trackPage" class="page-view">
+        <div class="tracker-container">
+            <div style="text-align:center;">
+                <span style="font-size: 40px;">🛵</span>
+                <h2 style="font-size: 26px; font-weight:900; margin-top:5px;">متابعة حالة طلبك لحظياً</h2>
+                <p style="color:var(--text-muted); font-size:14px; margin-top:4px;">تتبع خطوة بخطوة من المطبخ وحتى باب بيتك</p>
+            </div>
+
+            <div style="display:flex; gap:10px; margin: 25px 0 15px;">
+                <input type="number" id="trackOrderInput" class="search-input" placeholder="أدخل رقم الطلب (مثال: 9048)">
+                <button class="btn-modern btn-cart" onclick="searchTrackOrder()">بحث 🔍</button>
+            </div>
+
+            <div class="tracker-steps">
+                <div class="tracker-line">
+                    <div id="trackerLineFill" class="tracker-line-fill"></div>
+                </div>
+
+                <div class="step-node active" id="stepNode1">
+                    <div class="step-circle">⏳</div>
+                    <div class="step-text">استلام الطلب</div>
+                </div>
+                <div class="step-node" id="stepNode2">
+                    <div class="step-circle">👨‍🍳</div>
+                    <div class="step-text">بالمطبخ</div>
+                </div>
+                <div class="step-node" id="stepNode3">
+                    <div class="step-circle">🛵</div>
+                    <div class="step-text">مع الدليفري</div>
+                </div>
+                <div class="step-node" id="stepNode4">
+                    <div class="step-circle">✅</div>
+                    <div class="step-text">تم التسليم</div>
+                </div>
+            </div>
+
+            <div id="trackDetailsBox" style="background:#F8FAFC; border-radius:18px; padding:18px; border:1px solid var(--border); text-align:right;">
+                <p style="text-align:center; color:var(--text-muted);">أدخل رقم طلبك بالأعلى للبحث عن حالته الحالية.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تخصيص الإضافات بـ + و - -->
+    <div class="modal-overlay" id="customizeModal">
+        <div class="modal-box">
+            <span class="modal-close" onclick="closeModal('customizeModal')">&times;</span>
+            <div style="display:flex; gap:15px; align-items:center; margin-bottom:15px;">
+                <img id="customItemImg" style="width:70px; height:70px; border-radius:14px; object-fit:cover;">
+                <div>
+                    <h3 id="customItemName" style="font-size:18px; font-weight:900;"></h3>
+                    <div id="customItemBasePrice" style="color:var(--primary); font-weight:800; font-size:15px;"></div>
+                </div>
+            </div>
+
+            <h4 style="font-size:14px; font-weight:800; margin:15px 0 10px; color:#0F172A;">➕ أضف صوصات وإضافات حسب ذوقك:</h4>
+            
+            <div id="addonsList">
+                <div class="addon-row">
+                    <div>
+                        <strong>🥫 كاتشب هاينز أصلي</strong>
+                        <div style="font-size:12px; color:var(--text-muted);">+ 5 ج.م للعبوة</div>
+                    </div>
+                    <div class="counter-btn-group">
+                        <button class="counter-btn" onclick="changeAddonQty('ketchup', -1)">-</button>
+                        <span id="qty-ketchup" style="font-weight:800; min-width:20px; text-align:center;">0</span>
+                        <button class="counter-btn" onclick="changeAddonQty('ketchup', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="addon-row">
+                    <div>
+                        <strong>🍶 مايونيز فاخر</strong>
+                        <div style="font-size:12px; color:var(--text-muted);">+ 5 ج.م للعبوة</div>
+                    </div>
+                    <div class="counter-btn-group">
+                        <button class="counter-btn" onclick="changeAddonQty('mayo', -1)">-</button>
+                        <span id="qty-mayo" style="font-weight:800; min-width:20px; text-align:center;">0</span>
+                        <button class="counter-btn" onclick="changeAddonQty('mayo', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="addon-row">
+                    <div>
+                        <strong>🌭 مستردة ديجون</strong>
+                        <div style="font-size:12px; color:var(--text-muted);">+ 5 ج.م للعبوة</div>
+                    </div>
+                    <div class="counter-btn-group">
+                        <button class="counter-btn" onclick="changeAddonQty('mustard', -1)">-</button>
+                        <span id="qty-mustard" style="font-weight:800; min-width:20px; text-align:center;">0</span>
+                        <button class="counter-btn" onclick="changeAddonQty('mustard', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="addon-row">
+                    <div>
+                        <strong>🧀 صوص جبنة شيدر سائل</strong>
+                        <div style="font-size:12px; color:var(--text-muted);">+ 15 ج.م للعلبة</div>
+                    </div>
+                    <div class="counter-btn-group">
+                        <button class="counter-btn" onclick="changeAddonQty('cheddar', -1)">-</button>
+                        <span id="qty-cheddar" style="font-weight:800; min-width:20px; text-align:center;">0</span>
+                        <button class="counter-btn" onclick="changeAddonQty('cheddar', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="addon-row">
+                    <div>
+                        <strong>🔥 صوص باربيكيو مدخن</strong>
+                        <div style="font-size:12px; color:var(--text-muted);">+ 10 ج.م للعلبة</div>
+                    </div>
+                    <div class="counter-btn-group">
+                        <button class="counter-btn" onclick="changeAddonQty('bbq', -1)">-</button>
+                        <span id="qty-bbq" style="font-weight:800; min-width:20px; text-align:center;">0</span>
+                        <button class="counter-btn" onclick="changeAddonQty('bbq', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="addon-row">
+                    <div>
+                        <strong>🌶️ قطع هالبينو حار</strong>
+                        <div style="font-size:12px; color:var(--text-muted);">+ 10 ج.م للعلبة</div>
+                    </div>
+                    <div class="counter-btn-group">
+                        <button class="counter-btn" onclick="changeAddonQty('jalapeno', -1)">-</button>
+                        <span id="qty-jalapeno" style="font-weight:800; min-width:20px; text-align:center;">0</span>
+                        <button class="counter-btn" onclick="changeAddonQty('jalapeno', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:18px; font-weight:900;">
+                <span>السعر الإجمالي للصنف:</span>
+                <span id="customFinalPrice" style="color:var(--primary); font-size:20px;">0 ج.م</span>
+            </div>
+
+            <button class="checkout-btn" onclick="confirmAddToCart()">إضافة إلى السلة 🛒</button>
+        </div>
+    </div>
+
+    <!-- نافذة السلة والدفع (مع خيار التوصيل الصاروخي VIP) -->
+    <div class="modal-overlay" id="cartModal">
+        <div class="modal-box">
+            <span class="modal-close" onclick="closeModal('cartModal')">&times;</span>
+            <h2 style="margin-bottom: 12px;">🛒 حقيبة طلباتك</h2>
+            <div id="cartItemsList" style="max-height: 200px; overflow-y:auto; margin-bottom:15px;"></div>
+
+            <div style="display:flex; gap:8px; margin-bottom:15px;">
+                <input type="text" id="couponCode" class="search-input" placeholder="كود الخصم (جرب: KAYAN2026)">
+                <button class="btn-modern" style="background:#0F172A; color:white;" onclick="applyPromoCode()">تطبيق</button>
+            </div>
+
+            <!-- ميزة سرعة التوصيل المطلوب (عادي vs صاروخي VIP) -->
+            <div style="margin-top:10px;">
+                <label style="display:block; margin-bottom:6px; font-weight:bold; font-size:13px;">⚡ نوع وسرعة التوصيل المطلوبة:</label>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <label>
+                        <input type="radio" name="deliverySpeed" value="standard" checked hidden onchange="refreshCartTotal()">
+                        <div class="delivery-speed-card">
+                            <div style="font-weight:800; font-size:13px;">🛵 توصيل عادي</div>
+                            <div style="font-size:11px; color:var(--text-muted);">35 - 45 دقيقة (مجاناً)</div>
+                        </div>
+                    </label>
+                    <label>
+                        <input type="radio" name="deliverySpeed" value="turbo" hidden onchange="refreshCartTotal()">
+                        <div class="delivery-speed-card">
+                            <div style="font-weight:800; font-size:13px; color:var(--primary);">🚀 توصيل صاروخي VIP</div>
+                            <div style="font-size:11px; color:var(--text-muted);">15 - 25 دقيقة (+25 ج.م)</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; font-weight:900; font-size:18px; margin: 15px 0;">
+                <span>المبلغ الإجمالي:</span>
+                <span id="finalCartAmount" style="color:var(--primary);">0 ج.م</span>
+            </div>
+
+            <hr style="border:none; border-top:1px solid var(--border);">
+
+            <div style="margin-top:14px;">
+                <label style="display:block; margin-bottom:5px; font-weight:bold; font-size:13px;">اسم العميل</label>
+                <input type="text" id="orderCustName" class="search-input" placeholder="اكتب اسمك الكامل">
+            </div>
+            <div style="margin-top:12px;">
+                <label style="display:block; margin-bottom:5px; font-weight:bold; font-size:13px;">رقم هاتف للتواصل</label>
+                <input type="tel" id="orderCustPhone" class="search-input" placeholder="01xxxxxxxxx">
+            </div>
+            <div style="margin-top:12px;">
+                <label style="display:block; margin-bottom:5px; font-weight:bold; font-size:13px;">العنوان بالتفصيل أو رقم الترابيزة</label>
+                <input type="text" id="orderCustAddress" class="search-input" placeholder="المنطقة، الشارع، العمارة">
+            </div>
+
+            <div style="margin-top:14px;">
+                <label style="display:block; margin-bottom:6px; font-weight:bold; font-size:13px;">طريقة الدفع:</label>
+                <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px;">
+                    <label>
+                        <input type="radio" name="paymentType" value="كاش عند الاستلام" checked hidden>
+                        <div class="cat-chip" style="text-align:center; border-radius:12px;">💵 كاش</div>
+                    </label>
+                    <label>
+                        <input type="radio" name="paymentType" value="انستاباي / محفظة" hidden>
+                        <div class="cat-chip" style="text-align:center; border-radius:12px;">📱 انستاباي</div>
+                    </label>
+                    <label>
+                        <input type="radio" name="paymentType" value="فيزا / كارت أونلاين" hidden>
+                        <div class="cat-chip" style="text-align:center; border-radius:12px;">💳 كارت</div>
+                    </label>
+                </div>
+            </div>
+
+            <button class="checkout-btn" onclick="sendOrderToKitchen()">تأكيد وإرسال للمحل 🚀</button>
+        </div>
+    </div>
+
+    <!-- نافذة المبرمج (مع رفع الصورة من الجهاز) -->
+    <div class="modal-overlay" id="devModal">
+        <div class="modal-box">
+            <span class="modal-close" onclick="closeModal('devModal')">&times;</span>
+            <h2 style="margin-bottom: 15px; color: var(--primary);">⚙️ إضافة صنف جديد للقائمة</h2>
+
+            <div style="margin-top:10px;">
+                <label style="font-size:13px; font-weight:bold;">اسم الصنف</label>
+                <input type="text" id="devItemName" class="search-input" placeholder="اسم الوجبة أو المشروب">
+            </div>
+            <div style="margin-top:10px;">
+                <label style="font-size:13px; font-weight:bold;">القسم</label>
+                <select id="devItemCategory" class="search-input">
+                    <option value="ساندوتشات برجر ولحوم">ساندوتشات برجر ولحوم</option>
+                    <option value="دجاج ومقرمشات">دجاج ومقرمشات</option>
+                    <option value="وجبات ومكس جريل">وجبات ومكس جريل</option>
+                    <option value="بيتزا ومقبلات">بيتزا ومقبلات</option>
+                    <option value="موهيتو ومنعشات">موهيتو ومنعشات</option>
+                    <option value="عصائر وسموذي">عصائر وسموذي</option>
+                    <option value="غازية وساخنة">غازية وساخنة</option>
+                </select>
+            </div>
+            <div style="margin-top:10px;">
+                <label style="font-size:13px; font-weight:bold;">السعر (ج.م)</label>
+                <input type="number" id="devItemPrice" class="search-input" placeholder="مثال: 120">
+            </div>
+            <div style="margin-top:10px;">
+                <label style="font-size:13px; font-weight:bold;">الوصف</label>
+                <input type="text" id="devItemDesc" class="search-input" placeholder="المكونات والتفاصيل">
+            </div>
+
+            <div style="margin-top:12px;">
+                <label style="font-size:13px; font-weight:bold;">📷 اختر صورة من جهازك (موبايل أو كمبيوتر):</label>
+                <input type="file" id="devItemFileInput" accept="image/*" class="search-input" onchange="handleImageUpload(event)" style="padding:10px; cursor:pointer;">
+                <div style="font-size:11.5px; color:var(--text-muted); margin-top:5px;">أو ضع رابط صورة إنترنت:</div>
+                <input type="url" id="devItemImg" class="search-input" placeholder="https://..." style="margin-top:4px;">
+                <img id="devImagePreview" style="display:none; max-width: 100%; height: 130px; border-radius: 14px; object-fit: cover; margin-top: 10px; border: 1.5px dashed var(--primary);" alt="معاينة الصورة">
+            </div>
+
+            <button class="checkout-btn" style="background:#0F172A;" onclick="saveNewItemFromDev()">حفظ الصنف في الموقع فوراً ✅</button>
+            <button class="btn-modern" style="width:100%; margin-top:10px; color:#DC2626; border-color:#FCA5A5; justify-content:center;" onclick="lockDevMode()">🔒 قفل وضع التعديل والحذف</button>
+        </div>
+    </div>
+
+    <script>
+        // دالة التمرير صف صف (وحدة وحدة) بمقدار 450 بكسل
+        function scrollStep(amount) {
+            window.scrollBy({ top: amount, behavior: 'smooth' });
+        }
+
+        let uploadedImageBase64 = "";
+
+        function handleImageUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    uploadedImageBase64 = evt.target.result;
+                    const preview = document.getElementById('devImagePreview');
+                    preview.src = evt.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // قاعدة البيانات الكاملة: 147 صنفاً
+        const completeDatabaseMenu = [
+            // 1. ساندوتشات برجر ولحوم (21)
+            { id: 1, name: "برجر أبو كيان الجامبو", category: "ساندوتشات برجر ولحوم", price: 155, desc: "قطعتين لحم بقري بلدي 250جم مع جبنة شيدر وصوص خاص وخس طازج", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600" },
+            { id: 2, name: "كينج برجر تريبل تشيز", category: "ساندوتشات برجر ولحوم", price: 185, desc: "3 قطع لحم بقري صافي غرقانة في صوص الجبنة الشيدر الذائب", img: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=600" },
+            { id: 3, name: "برجر مشروم سويسري مدخن", category: "ساندوتشات برجر ولحوم", price: 160, desc: "لحم مشوي على اللهب مع شرائح المشروم الطازجة وصوص المايونيز", img: "https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=600" },
+            { id: 4, name: "برجر باربيكيو بيكون", category: "ساندوتشات برجر ولحوم", price: 165, desc: "لحم بقري مع شرائح بيف بيكون مقرمش وصوص باربيكيو مدخن", img: "https://images.unsplash.com/photo-1550547660-d9450f859349?w=600" },
+            { id: 5, name: "برجر سموكي هالبينو سبايسي", category: "ساندوتشات برجر ولحوم", price: 150, desc: "برجر حار مع قطع الهالبينو المكسيكية وصوص الشيدر الحار", img: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=600" },
+            { id: 6, name: "برجر كلاسيك شيدر سينجل", category: "ساندوتشات برجر ولحوم", price: 120, desc: "قطعة لحم 150جم مع صوص كلاسيك وخيار مخلل وشيدر صفراء", img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600" },
+            { id: 7, name: "برجر بيض وبيكون مقرمش", category: "ساندوتشات برجر ولحوم", price: 140, desc: "مزيج إفطار الملوك: بيض عيون، شريحة لحم، وبيكون مقرمش", img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=600" },
+            { id: 8, name: "برجر دبل سماش بالبصل المكرمل", category: "ساندوتشات برجر ولحوم", price: 160, desc: "لحم بقري سماش رقيق ومقرمش مع البصل المكرمل وصوص خاص", img: "https://images.unsplash.com/photo-1610440042657-612c34d95e9f?w=600" },
+            { id: 9, name: "ساندوتش فيلي تشيز ستيك", category: "ساندوتشات برجر ولحوم", price: 150, desc: "شرائح لحم بتلو رفيعة مشوحة مع بصل وفلفل وجبنة أمريكي سائحة", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=600" },
+            { id: 10, name: "ساندوتش فاهيتا لحم مكسيكي", category: "ساندوتشات برجر ولحوم", price: 140, desc: "شرائح لحم متبلة على الصاج مع فلفل ألوان وتوابل الفاهيتا", img: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=600" },
+            { id: 11, name: "ساندوتش كفتة حاتي مشوية فينو", category: "ساندوتشات برجر ولحوم", price: 110, desc: "أصابع كفتة حاتي بلدي على الفحم مع طحينة وبقدونس داخل فينو", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600" },
+            { id: 12, name: "ساندوتش كفتة بلدي بالعيش البلدي", category: "ساندوتشات برجر ولحوم", price: 115, desc: "كفتة بلدي مشوية بخلطة الحاتي في عيش بلدي سخن مع طحينة", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600" },
+            { id: 13, name: "ساندوتش سجق شرقي إسكندراني", category: "ساندوتشات برجر ولحوم", price: 105, desc: "سجق بلدي متبل مع طماطم وفلفل حار وثوم على الطريقة الأصلية", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600" },
+            { id: 14, name: "ساندوتش سجق مدخن بالموتزاريلا", category: "ساندوتشات برجر ولحوم", price: 120, desc: "سجق مشوي مغطى بطبقة كثيفة من جبنة الموتزاريلا الذائبة", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600" },
+            { id: 15, name: "ساندوتش كبدة إسكندراني حارة", category: "ساندوتشات برجر ولحوم", price: 95, desc: "كبدة بلدي بالثوم والليمون والفلفل الحار مع طحينة سمسم", img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600" },
+            { id: 16, name: "حواوشي أبو كيان بالموتزاريلا", category: "ساندوتشات برجر ولحوم", price: 95, desc: "رغيف حواوشي لحم بلدي محشو جبنة موتزاريلا سايحة ومقرمش", img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600" },
+            { id: 17, name: "حواوشي لحم بلدي مخصوص", category: "ساندوتشات برجر ولحوم", price: 80, desc: "خلطة لحم بلدي متبلة بالبهارات الخاصة ومخبوز بالفرن مقرمش", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600" },
+            { id: 18, name: "حواوشي إسكندراني بالعجين", category: "ساندوتشات برجر ولحوم", price: 90, desc: "عجينة طازجة محشوة لحم بلدي وفلفل ومخبوزة على الحجر", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600" },
+            { id: 19, name: "ساندوتش ستيك لحم بالمشروم", category: "ساندوتشات برجر ولحوم", price: 165, desc: "شرائح ستيك بتلو مشوية مع صوص الديمي جلاس والمشروم الفريش", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600" },
+            { id: 20, name: "ساندوتش روست بيف مدخن بالشيدر", category: "ساندوتشات برجر ولحوم", price: 135, desc: "شرائح روست بيف مدخن مع شيدر أحمر وخس ومايونيز ديجون", img: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=600" },
+            { id: 21, name: "برجر تروفل صوص فاخر", category: "ساندوتشات برجر ولحوم", price: 175, desc: "برجر لحم بلدي مع زيت وصوص الكمأة (تروفل) الأبيض الفاخر", img: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=600" },
+
+            // 2. دجاج ومقرمشات (21)
+            { id: 22, name: "ساندوتش زنجر سوبريم حار", category: "دجاج ومقرمشات", price: 130, desc: "صدر دجاج كرانشي حار، خس، مايونيز مدخن وخبز بريوش طازج", img: "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?w=600" },
+            { id: 23, name: "كرانشي تشيكن فيليه أصلي", category: "دجاج ومقرمشات", price: 125, desc: "دجاج مقرمش ذهبي غير حار مع مايونيز كريمي وخس طازج", img: "https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=600" },
+            { id: 24, name: "تشيكن تاور رانش بالجبنة", category: "دجاج ومقرمشات", price: 145, desc: "دجاج مقلي مع أصابع جبنة موتزاريلا وصوص رانش فاخر", img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600" },
+            { id: 25, name: "ساندوتش شيش طاووق جريل", category: "دجاج ومقرمشات", price: 120, desc: "قطع شيش متبلة بالزبادي والأعشاب مع تومية سورية ومخلل", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600" },
+            { id: 26, name: "شاورما دجاج سوري دبل", category: "دجاج ومقرمشات", price: 105, desc: "شاورما دجاج متبلة على السيخ ملفوفة بخبز الصاج مع تومية وخيار", img: "https://images.unsplash.com/photo-1561651823-34feb02250e4?w=600" },
+            { id: 27, name: "فاهيتا دجاج باربيكيو", category: "دجاج ومقرمشات", price: 125, desc: "قطع صدور دجاج مشوية مع بصل وفلفل ملون وصوص باربيكيو", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=600" },
+            { id: 28, name: "ساندوتش كوردون بلو دجاج", category: "دجاج ومقرمشات", price: 140, desc: "رول دجاج محشو جبنة شيدر ولانشون مدخن ومقلي مقرمش", img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600" },
+            { id: 29, name: "ساندوتش استربس تشيكن سوبر", category: "دجاج ومقرمشات", price: 120, desc: "3 قطع استربس كرسبي مع صوص هوني ماسترد وخس طازج", img: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=600" },
+            { id: 30, name: "تويستر دجاج كرسبي رول", category: "دجاج ومقرمشات", price: 95, desc: "استربس دجاج مقرمش ملفوف في خبز تورتيلا مع طماطم وصوص مايونيز", img: "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?w=600" },
+            { id: 31, name: "ساندوتش تشيكن بافلو سبايسي", category: "دجاج ومقرمشات", price: 130, desc: "دجاج مقلي مغطى بصوص البافلو الحار مع خس وصوص بلو تشيز", img: "https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=600" },
+            { id: 32, name: "ساندوتش تشيكن باربيكيو مدخن", category: "دجاج ومقرمشات", price: 125, desc: "دجاج مقرمش مغطى بصوص الباربيكيو الغني وبصل مقلي مقرمش", img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600" },
+            { id: 33, name: "سوبر كرانش شيدر صوص", category: "دجاج ومقرمشات", price: 135, desc: "دجاج كرانشي غرقان بصوص الجبنة الشيدر مع خس وبطاطس داخله", img: "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?w=600" },
+            { id: 34, name: "شاورما عربي دجاج بالمخلل والتومية", category: "دجاج ومقرمشات", price: 115, desc: "رول شاورما مقطع مع بطاطس وباكيت تومية ومخلل مشكل", img: "https://images.unsplash.com/photo-1561651823-34feb02250e4?w=600" },
+            { id: 35, name: "ساندوتش تشيكن رانش لافا", category: "دجاج ومقرمشات", price: 130, desc: "دجاج مقلي مع صوص الرانش الغني وشرائح الجبنة الأمريكية", img: "https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=600" },
+            { id: 36, name: "ساندوتش دجاج تندوري هندي", category: "دجاج ومقرمشات", price: 120, desc: "قطع دجاج مشوية بالتوابل الهندية الحارة مع صوص الزبادي بالنعناع", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600" },
+            { id: 37, name: "كاساديا دجاج مكسيكية بالجبن", category: "دجاج ومقرمشات", price: 135, desc: "خبز تورتيلا محشو دجاج متبل وجبنة مشكلة مشوي على الجريل", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=600" },
+            { id: 38, name: "برجر دجاج مشوي لايت", category: "دجاج ومقرمشات", price: 115, desc: "صدر دجاج متبل مشوي بدون دهون مع خس وطماطم ومايونيز لايت", img: "https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=600" },
+            { id: 39, name: "ساندوتش كفتة دجاج مشوية", category: "دجاج ومقرمشات", price: 105, desc: "أصابع كفتة دجاج متبلة مشوية على الفحم مع تومية وخيار", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600" },
+            { id: 40, name: "شاورما دجاج صوص شيدر", category: "دجاج ومقرمشات", price: 120, desc: "شاورما سوري مع صوص شيدر سائح دافئ بطعم لا يقاوم", img: "https://images.unsplash.com/photo-1561651823-34feb02250e4?w=600" },
+            { id: 41, name: "ساندوتش زينج فاير دبل تشيز", category: "دجاج ومقرمشات", price: 145, desc: "دجاج سبايسي مقرمش دبل مع طبقتين جبنة شيدر وصوص حار", img: "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?w=600" },
+            { id: 42, name: "رول مسحب دجاج حار", category: "دجاج ومقرمشات", price: 110, desc: "قطع مسحب دجاج كرانشي متبلة بخلطة حارة مع بطاطس وصوص مايونيز", img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600" },
+
+            // 3. وجبات ومشويات (21)
+            { id: 43, name: "وجبة ميكس جريل ملوكي أبو كيان", category: "وجبات ومكس جريل", price: 260, desc: "شيش طاووق، كفتة حاتي، قطع كباب، أرز بسمتي فاخر وبطاطس وسلطات", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600" },
+            { id: 44, name: "وجبة استربس عائلية 8 قطع", category: "وجبات ومكس جريل", price: 220, desc: "8 قطع استربس كريسبي، بطاطس كبيرة، كول سلو، 3 خبز وصوصات", img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600" },
+            { id: 45, name: "وجبة بروستد 4 قطع مقرمشة", category: "وجبات ومكس جريل", price: 195, desc: "نصف دجاجة بروستد مقلية بخلطة سرية مع بطاطس وتومية وكول سلو", img: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=600" },
+            { id: 46, name: "وجبة بروستد عائلية 8 قطع", category: "وجبات ومكس جريل", price: 350, desc: "دجاجة كاملة بروستد مقرمشة مع بطاطس لارج، لتر كولا، و4 صوصات", img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600" },
+            { id: 47, name: "وجبة نصف دجاجة مشوية ع الفحم", category: "وجبات ومكس جريل", price: 180, desc: "نصف دجاجة متبلة مشوية على الفحم مع أرز بسمتي بالخلطة وطحينة", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600" },
+            { id: 48, name: "وجبة دجاجة كاملة مشوية شيش", category: "وجبات ومكس جريل", price: 310, desc: "دجاجة كاملة مقطعة 8 قطع مشوية على الفحم مع سرفيس أرز كبير وسلطات", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600" },
+            { id: 49, name: "وجبة كفتة حاتي 1/2 كيلو", category: "وجبات ومكس جريل", price: 230, desc: "نصف كيلو كفتة لحم بلدي مشوية على الفحم مع طحينة وخضار مشوي وخبز", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600" },
+            { id: 50, name: "وجبة شيش طاووق بالأرز", category: "وجبات ومكس جريل", price: 185, desc: "أسياخ شيش طاووق مشوية مع أرز بسمتي أصفر وبطاطس محمرة وتومية", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600" },
+            { id: 51, name: "وجبة كباب بتلو وكفتة مشوية", category: "وجبات ومكس جريل", price: 290, desc: "قطع كباب بتلو ناعمة مع كفتة حاتي متبلة وأرز بسمتي ومخلل", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600" },
+            { id: 52, name: "وجبة ريش ضاني مشوية ع الفحم", category: "وجبات ومكس جريل", price: 340, desc: "ريش ضاني بلدي طازجة مشوية على الهادئ مع خضار سوتيه وطحينة", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600" },
+            { id: 53, name: "وجبة طرب ضاني مشوي متبل", category: "وجبات ومكس جريل", price: 260, desc: "أصابع كفتة ملفوفة بمنديل الضاني البلدي مشوية ومقرمشة مع أرز", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600" },
+            { id: 54, name: "وجبة شاورما عربي دبل", category: "وجبات ومكس جريل", price: 165, desc: "صاروخين شاورما دجاج مقطعة مع بطاطس ودبس رمان وتومية وخيار", img: "https://images.unsplash.com/photo-1561651823-34feb02250e4?w=600" },
+            { id: 55, name: "وجبة فاهيتا ميكس لحم ودجاج", category: "وجبات ومكس جريل", price: 225, desc: "صاج فاهيتا لحم ودجاج ساخن مع بصل وفلفل وتورتيلا وصوصات مكسيكية", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=600" },
+            { id: 56, name: "وجبة كوردون بلو مكرونة وايت صوص", category: "وجبات ومكس جريل", price: 210, desc: "قطعتين كوردون بلو محشوين جبنة مع طبق مكرونة بيني وايت صوص غني", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=600" },
+            { id: 57, name: "وجبة مسحب دجاج مقرمش 10 قطع", category: "وجبات ومكس جريل", price: 175, desc: "10 قطع مسحب مقرمش مع بطاطس وصوص مسحب حار وتومية وخبز", img: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=600" },
+            { id: 58, name: "وجبة موزة ضاني بالأرز البسمتي", category: "وجبات ومكس جريل", price: 320, desc: "موزة ضاني مطهوة في الفرن دايبة تقدم فوق سرفيس أرز بالمكسرات", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600" },
+            { id: 59, name: "وجبة استربس فردية 4 قطع", category: "وجبات ومكس جريل", price: 140, desc: "4 قطع استربس كريسبي مع بطاطس وباكيت كاتشب وتومية وخبز", img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600" },
+            { id: 60, name: "وجبة ميكس برجر وبطاطس وكانز", category: "وجبات ومكس جريل", price: 170, desc: "ساندوتش برجر دبل لحم بلدي مع بطاطس مقلية وعلبة كانز بيبسي", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600" },
+            { id: 61, name: "طبق أرز بسمتي بالدجاج الكرانشي", category: "وجبات ومكس جريل", price: 130, desc: "أرز بسمتي مبهر مغطى بقطع دجاج استربس مقرمشة وصوص باربيكيو وشيدر", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600" },
+            { id: 62, name: "وجبة كبدة وقوانص بالأرز", category: "وجبات ومكس جريل", price: 120, desc: "كبد وقوانص دجاج متبلة مشوحة مع بصل وفلفل فوق أرز أصفر", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600" },
+            { id: 63, name: "صينية أبو كيان العائلية العملاقة", category: "وجبات ومكس جريل", price: 650, desc: "كفتة حاتي + شيش طاووق + 8 قطع بروستد + سرفيس أرز كبير + بطاطس ولتر كولا", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600" },
+
+            // 4. بيتزا ومقبلات (21)
+            { id: 64, name: "بيتزا سوبر سوبريم أبو كيان", category: "بيتزا ومقبلات", price: 175, desc: "سلامي، سجق، قطع لحم، فلفل، زيتون، وموتزاريلا طبيعية 100%", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600" },
+            { id: 65, name: "بيتزا تشيكن باربيكيو رانش", category: "بيتزا ومقبلات", price: 165, desc: "قطع دجاج مشوية مع صوص باربيكيو وصوص رانش وجبنة ذائبة", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600" },
+            { id: 66, name: "بيتزا كواترو فورماجي 4 أجبان", category: "بيتزا ومقبلات", price: 155, desc: "مزيج غني من الشيدر والموتزاريلا والريكفورد والجبنة الكيري", img: "https://images.unsplash.com/photo-1573821663912-569905455b1c?w=600" },
+            { id: 67, name: "بيتزا مارجريتا إيطالية كلاسيك", category: "بيتزا ومقبلات", price: 120, desc: "صلصة طماطم إيطالية مع جبنة موتزاريلا وريحان طازج وزيت زيتون", img: "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=600" },
+            { id: 68, name: "بيتزا بيبروني لحم بقري مدخن", category: "بيتزا ومقبلات", price: 160, desc: "شرائح بيبروني بقري مدخن فاخر مع جبنة موتزاريلا سايحة", img: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600" },
+            { id: 69, name: "بيتزا سجق شرقي إسكندراني", category: "بيتزا ومقبلات", price: 150, desc: "سجق بلدي متبل مع طماطم وفلفل رومي وزيتون وجبنة", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600" },
+            { id: 70, name: "بيتزا تونة بالزيتون والبصل", category: "بيتزا ومقبلات", price: 150, desc: "قطع تونة فاخرة مع شرائح بصل، فلفل أخضر، زيتون وموتزاريلا", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600" },
+            { id: 71, name: "بيتزا سي فود جمبري وكاليماري", category: "بيتزا ومقبلات", price: 220, desc: "جمبري طازج وقطع كاليماري مع صوص أبيض وثوم وموتزاريلا", img: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=600" },
+            { id: 72, name: "بيتزا شاورما دجاج سوري", category: "بيتزا ومقبلات", price: 165, desc: "شاورما دجاج متبلة مع مخلل وتومية وموتزاريلا على العجينة", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600" },
+            { id: 73, name: "بيتزا ميكس لحوم كاملة", category: "بيتزا ومقبلات", price: 180, desc: "بيبروني + سجق بلدي + قطع لحم مفروم + موتزاريلا كثيفة", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600" },
+            { id: 74, name: "بيتزا خضروات مشكلة فريش", category: "بيتزا ومقبلات", price: 125, desc: "مشروم، فلفل ألوان، زيتون، بصل، طماطم شيري، وجبنة نباتية", img: "https://images.unsplash.com/photo-1573821663912-569905455b1c?w=600" },
+            { id: 75, name: "بطاطس فارم فرايز بالجبنة الشيدر", category: "بيتزا ومقبلات", price: 55, desc: "أصابع بطاطس مقرمشة مغطاة بصوص الشيدر والباربيكيو", img: "https://images.unsplash.com/photo-1576107232684-1279f3908594?w=600" },
+            { id: 76, name: "بطاطس هالبينو وبيكون تشيز فرايز", category: "بيتزا ومقبلات", price: 70, desc: "بطاطس مقلية مع قطع هالبينو حارة وبيكون وصوص جبنة سايح", img: "https://images.unsplash.com/photo-1585109649139-366815a0d713?w=600" },
+            { id: 77, name: "أصابع جبنة موتزاريلا مقلية (5 قطع)", category: "بيتزا ومقبلات", price: 65, desc: "أصابع موتزاريلا كرسبي مقلية تقدم مع صوص المارينارا", img: "https://images.unsplash.com/photo-1531749668029-2db88e4276c7?w=600" },
+            { id: 78, name: "حلقات بصل كرسبي ذهبية", category: "بيتزا ومقبلات", price: 45, desc: "حلقات بصل مقرمشة بالبقسماط المتبل مع صوص الرانش", img: "https://images.unsplash.com/photo-1639024471287-032f6670a4e7?w=600" },
+            { id: 79, name: "سمبوسك ميكس جبن (5 قطع)", category: "بيتزا ومقبلات", price: 50, desc: "مثلثات سمبوسك مقرمشة محشوة جبنة كيري وشيدر وموتزاريلا بالنعناع", img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600" },
+            { id: 80, name: "سمبوسك لحم مفروم بلدي (5 قطع)", category: "بيتزا ومقبلات", price: 55, desc: "سمبوسك محشوة لحم بلدي معصج بالبصل والصنوبر والبهارات", img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600" },
+            { id: 81, name: "سلطة كول سلو كريمي طازجة", category: "بيتزا ومقبلات", price: 30, desc: "كرنب وجزر مبشور طازج مع دريسينج المايونيز والعسل اللذيذ", img: "https://images.unsplash.com/photo-1625944230945-1b7dd3b949ab?w=600" },
+            { id: 82, name: "سلطة ثومية سورية أصلية", category: "بيتزا ومقبلات", price: 25, desc: "ثومية ناعمة وكريمية محضرة على الطريقة الشامية التقليدية", img: "https://images.unsplash.com/photo-1514944298352-f472252a1663?w=600" },
+            { id: 83, name: "سلطة طحينة بلدي ومخلل مشكل", category: "بيتزا ومقبلات", price: 20, desc: "طحينة سمسم طبيعية مع ليمون وكمون وعلبة مخلل مشكل بلدي", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600" },
+            { id: 84, name: "ناجتس دجاج للأطفال (6 قطع)", category: "بيتزا ومقبلات", price: 60, desc: "قطع ناجتس دجاج ذهبية مقرمشة محبوبة للأطفال مع بطاطس وباكيت كاتشب", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=600" },
+
+            // 5. موهيتو ومنعشات (21)
+            { id: 85, name: "موهيتو توت أزرق (بلوبيري) مثلج", category: "موهيتو ومنعشات", price: 50, desc: "صودا مع نكهة التوت الأزرق، ليمون طازج، نعناع، وثلج مجروش", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600" },
+            { id: 86, name: "موهيتو فراولة فريش منعش", category: "موهيتو ومنعشات", price: 50, desc: "صودا مع بيوريه الفراولة الطبيعية وشرائح الليمون وأوراق النعناع", img: "https://images.unsplash.com/photo-1546173159-315724a31696?w=600" },
+            { id: 87, name: "موهيتو باشن فروت استوائي", category: "موهيتو ومنعشات", price: 55, desc: "طعم الباشن فروت الاستوائي الفاخر مع الصودا والثلج المنعش", img: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=600" },
+            { id: 88, name: "موهيتو ليمون ونعناع كلاسيك", category: "موهيتو ومنعشات", price: 45, desc: "الموهيتو الكوبي الأصلي المنعش مع شرائح الليمون الأخضر", img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600" },
+            { id: 89, name: "موهيتو رمان وتوت أحمر", category: "موهيتو ومنعشات", price: 55, desc: "حبات الرمان الطبيعية مع مزيج التوت المنعش والصودا المثلجة", img: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=600" },
+            { id: 90, name: "موهيتو بلو هاواي آيلاند", category: "موهيتو ومنعشات", price: 55, desc: "كوكتيل أزرق صيفي مع نكهة الأناناس وجوز الهند والليمون", img: "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=600" },
+            { id: 91, name: "موهيتو خوخ استوائي مثلج", category: "موهيتو ومنعشات", price: 50, desc: "نكهة الخوخ اللذيذة مع الصودا وقطع الليمون والنعناع", img: "https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=600" },
+            { id: 92, name: "موهيتو بطيخ منعش صيفي", category: "موهيتو ومنعشات", price: 50, desc: "عصير بطيخ فريش مع لمسة موهيتو ونعناع وصودا مثلجة", img: "https://images.unsplash.com/photo-1589733955941-5eeaf752f6dd?w=600" },
+            { id: 93, name: "موهيتو تفاح أخضر مثلج", category: "موهيتو ومنعشات", price: 50, desc: "نكهة التفاح الأخضر المقرمشة الحامضة الحلوة مع النعناع والثلج", img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600" },
+            { id: 94, name: "موهيتو كرز (شيري) أحمر فوار", category: "موهيتو ومنعشات", price: 55, desc: "طعم الكرز الأحمر المركز مع الصودا وشريحة ليمون منعشة", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600" },
+            { id: 95, name: "موهيتو مانجو وليمون استوائي", category: "موهيتو ومنعشات", price: 55, desc: "بيوريه المانجو مع عصير الليمون والصودا وأوراق النعناع الفريش", img: "https://images.unsplash.com/photo-1546173159-315724a31696?w=600" },
+            { id: 96, name: "موهيتو كيوي ونعناع بارد", category: "موهيتو ومنعشات", price: 50, desc: "قطع كيوي طبيعية مهروسة مع الليمون والصودا والثلج المجروش", img: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=600" },
+            { id: 97, name: "موهيتو أناناس وجوز هند", category: "موهيتو ومنعشات", price: 55, desc: "مزيج استوائي من عصير الأناناس ونكهة الكوكونات والصودا", img: "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=600" },
+            { id: 98, name: "موهيتو رد بول ميكس طاقة", category: "موهيتو ومنعشات", price: 75, desc: "كانز رد بول مع سيرب التوت الأزرق، شرائح الليمون وأوراق النعناع", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600" },
+            { id: 99, name: "موهيتو كرانبيري حامض حلو", category: "موهيتو ومنعشات", price: 55, desc: "نكهة التوت البري الكرانبيري مع الليمون والصودا والثلج", img: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=600" },
+            { id: 100, name: "موهيتو عنب أسود مثلج", category: "موهيتو ومنعشات", price: 50, desc: "نكهة العنب الأسود الغنية مع الصودا والنعناع المنعش", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600" },
+            { id: 101, name: "موهيتو بلاك بيري بري", category: "موهيتو ومنعشات", price: 55, desc: "توت أسود بري طبيعي مع صودا وليمون أخضر ونعناع طازج", img: "https://images.unsplash.com/photo-1546173159-315724a31696?w=600" },
+            { id: 102, name: "موهيتو صن رايز برتقال ورمان", category: "موهيتو ومنعشات", price: 50, desc: "مزيج متدرج الألوان من عصير البرتقال والرمان والصودا", img: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=600" },
+            { id: 103, name: "موهيتو فراولة وبطيخ ميكس", category: "موهيتو ومنعشات", price: 55, desc: "كوكتيل صيفي منعش يجمع بين حلاوة البطيخ وانتعاش الفراولة", img: "https://images.unsplash.com/photo-1589733955941-5eeaf752f6dd?w=600" },
+            { id: 104, name: "موهيتو تروپيكال لافا", category: "موهيتو ومنعشات", price: 60, desc: "ميكس ثلاثي من المانجو والباشن فروت والفراولة مع الصودا", img: "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=600" },
+            { id: 105, name: "موهيتو ليموناضة بينك وردية", category: "موهيتو ومنعشات", price: 45, desc: "ليموناضة وردية منعشة بنكهة التوت والنعناع والثلج المجروش", img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600" },
+
+            // 6. عصائر وسموذي (21)
+            { id: 106, name: "عصير مانجو قطع فريش طبيعي", category: "عصائر وسموذي", price: 55, desc: "عصير مانجو طبيعي 100% بدون إضافات غني بقطع المانجو الطازجة", img: "https://images.unsplash.com/photo-1546173159-315724a31696?w=600" },
+            { id: 107, name: "عصير برتقال طبيعي معصور", category: "عصائر وسموذي", price: 40, desc: "برتقال بلدي معصور طازج بدون سكر غني بفيتامين C", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=600" },
+            { id: 108, name: "عصير فراولة طبيعية بلدي", category: "عصائر وسموذي", price: 45, desc: "فراولة بلدي طازجة مخفوقة وباردة بدون مواد حافظة", img: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=600" },
+            { id: 109, name: "عصير جوافة بالحليب والعسل", category: "عصائر وسموذي", price: 45, desc: "جوافة منزوعة البذر مخفوقة بالحليب الطبيعي وعسل النحل", img: "https://images.unsplash.com/photo-1534353473418-4cfa6c56fd38?w=600" },
+            { id: 110, name: "عصير ليمون بالنعناع الفريش", category: "عصائر وسموذي", price: 35, desc: "أقوى عصير منعش ليمون أخضر طازج مخفوق مع أوراق النعناع", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600" },
+            { id: 111, name: "سموذي توت وفراولة بيري ميكس", category: "عصائر وسموذي", price: 60, desc: "سموذي مثلج غني بمزيج التوت الأسود، الأزرق والفراولة الطبيعية", img: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=600" },
+            { id: 112, name: "ميلك شيك أوريو شوكولاتة فادج", category: "عصائر وسموذي", price: 65, desc: "آيس كريم فانيليا مخفوق مع قطع أوريو وصوص شوكولاتة غني", img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600" },
+            { id: 113, name: "ميلك شيك لوتس كراميل مقرمش", category: "عصائر وسموذي", price: 70, desc: "زبدة وبسكويت لوتس أصلي مخفوق بالحليب والآيس كريم", img: "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=600" },
+            { id: 114, name: "ميلك شيك كيت كات شوكولاتة", category: "عصائر وسموذي", price: 65, desc: "أصابع كيت كات مخفوقة مع آيس كريم وصوص الكاكاو", img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600" },
+            { id: 115, name: "ميلك شيك فانيليا كلاسيك", category: "عصائر وسموذي", price: 55, desc: "طعم الفانيليا الفرنسية الأصلي المخفوق بالحليب الطبيعي البارد", img: "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=600" },
+            { id: 116, name: "ميلك شيك نوتيلا وبندق محمص", category: "عصائر وسموذي", price: 75, desc: "شوكولاتة نوتيلا أصلية مع آيس كريم وبندق محمص مجروش", img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600" },
+            { id: 117, name: "عصير أفوكادو بالعسل والمكسرات", category: "عصائر وسموذي", price: 75, desc: "أفوكادو طازج بالحليب وعسل النحل مزين بالكاجو واللوز", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600" },
+            { id: 118, name: "عصير بطيخ أحمر طبيعي مثلج", category: "عصائر وسموذي", price: 40, desc: "بطيخ أحمر طبيعي 100% معصور بدون ماء مع ثلج مجروش", img: "https://images.unsplash.com/photo-1589733955941-5eeaf752f6dd?w=600" },
+            { id: 119, name: "كوكتيل فواكه طبقات أبو كيان", category: "عصائر وسموذي", price: 65, desc: "طبقات مانجو وفراولة وجوافة مع قطع تفاح وموز ومكسرات", img: "https://images.unsplash.com/photo-1546173159-315724a31696?w=600" },
+            { id: 120, name: "عصير أناناس طبيعي فريش", category: "عصائر وسموذي", price: 50, desc: "أناناس ذهبي طبيعي معصور طازج ومنعش للهضم", img: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=600" },
+            { id: 121, name: "عصير كيوي بالليمون ديتوكس", category: "عصائر وسموذي", price: 45, desc: "كيوي طازج مع لمسة ليمون منعش لرفع المناعة والطاقة", img: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=600" },
+            { id: 122, name: "سموذي مانجو وباشن فروت", category: "عصائر وسموذي", price: 60, desc: "سموذي استوائي ثقيل ومثلج بنكهة المانجو والباشن فروت", img: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=600" },
+            { id: 123, name: "سموذي خوخ وموز بالزبادي", category: "عصائر وسموذي", price: 55, desc: "قطع خوخ وموز مخفوقة مع الزبادي وعسل النحل الطبيعي", img: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=600" },
+            { id: 124, name: "عصير رمان بلدي فريش", category: "عصائر وسموذي", price: 50, desc: "رمان بلدي معصور طبيعي بدون إضافات غني بمضادات الأكسدة", img: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=600" },
+            { id: 125, name: "عصير كنتالوب بالحليب والعسل", category: "عصائر وسموذي", price: 40, desc: "كنتالوب طازج مخفوق مع الحليب البارد ورشة فانيليا", img: "https://images.unsplash.com/photo-1534353473418-4cfa6c56fd38?w=600" },
+            { id: 126, name: "سموذي بينا كولادا جوز هند", category: "عصائر وسموذي", price: 60, desc: "سموذي الأناناس الكريمي مع حليب جوز الهند والثلج", img: "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=600" },
+
+            // 7. غازية وساخنة (21)
+            { id: 127, name: "بيبسي مثلج (كان 330 مل)", category: "غازية وساخنة", price: 20, desc: "مشروب بيبسي كولا غازي مثلج يقدم مع كوب ثلج وليمون", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=600" },
+            { id: 128, name: "سفن أب ليمون (كان 330 مل)", category: "غازية وساخنة", price: 20, desc: "مشروب غازي بطعم الليمون المنعش خالي من الكافيين", img: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600" },
+            { id: 129, name: "ميرندا برتقال (كان 330 مل)", category: "غازية وساخنة", price: 20, desc: "طعم البرتقال الغازي المنعش والمحبوب", img: "https://images.unsplash.com/photo-1624517452488-04869289c4ca?w=600" },
+            { id: 130, name: "ميرندا تفاح أخضر (كان 330 مل)", category: "غازية وساخنة", price: 20, desc: "مشروب غازي بطعم التفاح الأخضر المنعش", img: "https://images.unsplash.com/photo-1624517452488-04869289c4ca?w=600" },
+            { id: 131, name: "كوكاكولا زيرو دايت (كان 330 مل)", category: "غازية وساخنة", price: 20, desc: "طعم الكوكاكولا الأصلي بدون سكر وبدون سعرات حرارية", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=600" },
+            { id: 132, name: "سبرايت ليمون مثلج (كان 330 مل)", category: "غازية وساخنة", price: 20, desc: "صودا ليمون منعشة تروي العطش", img: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600" },
+            { id: 133, name: "شويبس رمان فوار زجاجة", category: "غازية وساخنة", price: 22, desc: "مشروب شويبس الفوار بطعم الرمان المميز", img: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=600" },
+            { id: 134, name: "شويبس جولد أناناس شعير", category: "غازية وساخنة", price: 22, desc: "مشروب شعير فوار غير كحولي بنكهة الأناناس الذهبي", img: "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=600" },
+            { id: 135, name: "مياه معدنية طبيعية صغيرة 600 مل", category: "غازية وساخنة", price: 10, desc: "مياه نقية طبيعية من أفضل الآبار الجوفية", img: "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=600" },
+            { id: 136, name: "مياه معدنية طبيعية كبيرة 1.5 لتر", category: "غازية وساخنة", price: 18, desc: "زجاجة مياه معدنية طبيعية عائلية باردة", img: "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=600" },
+            { id: 137, name: "مشروب طاقة رد بول أصلي 250 مل", category: "غازية وساخنة", price: 55, desc: "مشروب الطاقة العالمي يمنحك جوانح من الحيوية والنشاط", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600" },
+            { id: 138, name: "فيروز أناناس شعير بدون كحول", category: "غازية وساخنة", price: 20, desc: "مشروب شعير طبيعي بنكهة الأناناس المنعشة", img: "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=600" },
+            { id: 139, name: "قهوة إسبريسو سنجل برازيلي", category: "غازية وساخنة", price: 25, desc: "شوت إسبريسو غني بوش كريمي ثقيل من حبوب البن المحمصة", img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=600" },
+            { id: 140, name: "قهوة إسبريسو دوبل مركز", category: "غازية وساخنة", price: 35, desc: "جرعة مضاعفة من الإسبريسو لتركيز وطاقة تدوم طويلاً", img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=600" },
+            { id: 141, name: "كابتشينو برغوة الحليب الغنية", category: "غازية وساخنة", price: 45, desc: "إسبريسو غني بحليب مبخر ورغوة حليب كريمية ناعمة مع كاكاو", img: "https://images.unsplash.com/photo-1534778101976-62847782c213?w=600" },
+            { id: 142, name: "كافيه لاتيه بالكراميل والفانيليا", category: "غازية وساخنة", price: 50, desc: "قهوة حليبية ناعمة مع صوص كراميل دافئ ونكهة فانيليا", img: "https://images.unsplash.com/photo-1534778101976-62847782c213?w=600" },
+            { id: 143, name: "موكا شوكولاتة ساخنة بالحليب", category: "غازية وساخنة", price: 50, desc: "مزيج الإسبريسو والشوكولاتة الذائبة مع حليب مبخر كريمي", img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=600" },
+            { id: 144, name: "شاي كرك هندي أصيل بالهيل", category: "غازية وساخنة", price: 30, desc: "شاي مغلي مع الحليب المكثف والهيل والزعفران على الطريقة الأصلية", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=600" },
+            { id: 145, name: "شاي أحمر مصري بالنعناع البلدي", category: "غازية وساخنة", price: 15, desc: "كوب شاي مظبوط مع أوراق النعناع البلدي الأخضر الفريش", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=600" },
+            { id: 146, name: "شاي أخضر بالياسمين والليمون", category: "غازية وساخنة", price: 20, desc: "شاي أخضر نقي يساعد على الهضم والاسترخاء مع شريحة ليمون", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=600" },
+            { id: 147, name: "هوت شوكليت غني بالمارشملو", category: "غازية وساخنة", price: 45, desc: "كاكاو بلجيكي ساخن ومكثف بالحليب مزين بحبات المارشملو الذائبة", img: "https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=600" }
+        ];
+
+        let storedItems = JSON.parse(localStorage.getItem('abu_kayan_items'));
+        if (!storedItems || storedItems.length < 100) {
+            storedItems = completeDatabaseMenu;
+            localStorage.setItem('abu_kayan_items', JSON.stringify(completeDatabaseMenu));
+        }
+
+        let menuData = storedItems;
+        let userCart = [];
+        let discountRate = 0;
+        let isDevAuthorized = false;
+        let currentMenuCategory = 'الكل';
+
+        let currentCustomItem = null;
+        let currentAddons = { ketchup: 0, mayo: 0, mustard: 0, cheddar: 0, bbq: 0, jalapeno: 0 };
+        const addonPrices = { ketchup: 5, mayo: 5, mustard: 5, cheddar: 15, bbq: 10, jalapeno: 10 };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderFeaturedHome();
+            renderFullMenu();
+            updateCartCounter();
+            startLiveTrackerSync();
+            startMenuLiveSync();
+        });
+
+        // مزامنة الأصناف المضافة أو المحذوفة تلقائياً في كل الصفحات
+        function startMenuLiveSync() {
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'abu_kayan_items') {
+                    menuData = JSON.parse(e.newValue) || completeDatabaseMenu;
+                    renderFeaturedHome();
+                    renderFullMenu();
+                }
+            });
+        }
+
+        function switchPage(page) {
+            document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+
+            if (page === 'home') {
+                document.getElementById('homePage').classList.add('active');
+                document.getElementById('nav-home').classList.add('active');
+            } else if (page === 'menu') {
+                document.getElementById('menuPage').classList.add('active');
+                document.getElementById('nav-menu').classList.add('active');
+                renderFullMenu();
+            } else if (page === 'track') {
+                document.getElementById('trackPage').classList.add('active');
+                document.getElementById('nav-track').classList.add('active');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goToMenuCategory(cat) {
+            switchPage('menu');
+            selectMenuCategory(cat);
+        }
+
+        function renderFeaturedHome() {
+            const grid = document.getElementById('featuredGrid');
+            grid.innerHTML = '';
+            menuData.slice(0, 4).forEach(item => {
+                grid.innerHTML += createFoodCardHTML(item);
+            });
+        }
+
+        function renderFullMenu() {
+            const grid = document.getElementById('allMenuGrid');
+            grid.innerHTML = '';
+
+            let list = currentMenuCategory === 'الكل' 
+                ? menuData 
+                : menuData.filter(i => i.category === currentMenuCategory);
+
+            const query = document.getElementById('foodSearchInput')?.value.toLowerCase().trim();
+            if (query) {
+                list = list.filter(i => i.name.toLowerCase().includes(query) || i.desc.toLowerCase().includes(query));
+            }
+
+            if(list.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding: 40px; color: var(--text-muted);">عذراً، لم نجد أي صنف مطابق لبحثك!</div>`;
+                return;
+            }
+
+            list.forEach(item => {
+                grid.innerHTML += createFoodCardHTML(item);
+            });
+        }
+
+        function createFoodCardHTML(item) {
+            return `
+                <div class="food-card">
+                    ${isDevAuthorized ? `<button class="dev-delete-tag" style="display:block;" onclick="deleteFoodItem(${item.id})">🗑️ حذف</button>` : ''}
+                    <img src="${item.img}" alt="${item.name}" class="food-img" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600'">
+                    <div class="food-card-body">
+                        <div>
+                            <span class="category-tag">${item.category}</span>
+                            <h3 class="food-name">${item.name}</h3>
+                            <p class="food-desc">${item.desc}</p>
+                        </div>
+                        <div class="food-card-footer">
+                            <span class="food-price">${item.price} ج.م</span>
+                            <button class="btn-customize" onclick="openCustomizeModal(${item.id})">➕ تخصيص وإضافة</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectMenuCategory(cat) {
+            currentMenuCategory = cat;
+            document.querySelectorAll('#menuFilterPills .cat-chip').forEach(c => c.classList.remove('active'));
+            
+            const allChips = document.querySelectorAll('#menuFilterPills .cat-chip');
+            allChips.forEach(chip => {
+                if(chip.innerText.includes(cat) || (cat === 'الكل' && chip.innerText.includes('الكل'))) {
+                    chip.classList.add('active');
+                }
+            });
+
+            renderFullMenu();
+        }
+
+        function filterFoods() { renderFullMenu(); }
+
+        function openCustomizeModal(id) {
+            currentCustomItem = menuData.find(i => i.id === id);
+            if (!currentCustomItem) return;
+
+            currentAddons = { ketchup: 0, mayo: 0, mustard: 0, cheddar: 0, bbq: 0, jalapeno: 0 };
+            ['ketchup', 'mayo', 'mustard', 'cheddar', 'bbq', 'jalapeno'].forEach(k => {
+                document.getElementById(`qty-${k}`).innerText = '0';
+            });
+
+            document.getElementById('customItemImg').src = currentCustomItem.img;
+            document.getElementById('customItemName').innerText = currentCustomItem.name;
+            document.getElementById('customItemBasePrice').innerText = `السعر الأساسي: ${currentCustomItem.price} ج.م`;
+            calculateCustomTotal();
+
+            openModal('customizeModal');
+        }
+
+        function changeAddonQty(addonKey, delta) {
+            currentAddons[addonKey] = Math.max(0, currentAddons[addonKey] + delta);
+            document.getElementById(`qty-${addonKey}`).innerText = currentAddons[addonKey];
+            calculateCustomTotal();
+        }
+
+        function calculateCustomTotal() {
+            let total = currentCustomItem.price;
+            for(let key in currentAddons) {
+                total += currentAddons[key] * addonPrices[key];
+            }
+            document.getElementById('customFinalPrice').innerText = `${total} ج.م`;
+            return total;
+        }
+
+        function confirmAddToCart() {
+            const finalPrice = calculateCustomTotal();
+            
+            let addonsSummary = [];
+            if (currentAddons.ketchup > 0) addonsSummary.push(`${currentAddons.ketchup}x كاتشب`);
+            if (currentAddons.mayo > 0) addonsSummary.push(`${currentAddons.mayo}x مايونيز`);
+            if (currentAddons.mustard > 0) addonsSummary.push(`${currentAddons.mustard}x مستردة`);
+            if (currentAddons.cheddar > 0) addonsSummary.push(`${currentAddons.cheddar}x جبنة شيدر`);
+            if (currentAddons.bbq > 0) addonsSummary.push(`${currentAddons.bbq}x باربيكيو`);
+            if (currentAddons.jalapeno > 0) addonsSummary.push(`${currentAddons.jalapeno}x هالبينو`);
+
+            const cartEntry = {
+                id: currentCustomItem.id,
+                name: currentCustomItem.name,
+                price: finalPrice,
+                addonsText: addonsSummary.length > 0 ? `(${addonsSummary.join(' + ')})` : ''
+            };
+
+            userCart.push(cartEntry);
+            updateCartCounter();
+            closeModal('customizeModal');
+            alert(`تمت إضافة "${cartEntry.name}" ${cartEntry.addonsText} للسلة بنجاح!`);
+        }
+
+        function updateCartCounter() {
+            document.getElementById('cartCountBadge').innerText = userCart.length;
+        }
+
+        function openCartModal() {
+            const listDiv = document.getElementById('cartItemsList');
+            listDiv.innerHTML = '';
+
+            if (userCart.length === 0) {
+                listDiv.innerHTML = '<p style="text-align:center; padding:20px; color:gray;">سلة طلباتك فارغة حالياً</p>';
+            } else {
+                userCart.forEach((item, idx) => {
+                    listDiv.innerHTML += `
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #eee;">
+                            <div>
+                                <div style="font-weight:700;">${item.name}</div>
+                                <div style="font-size:12px; color:var(--text-muted);">${item.addonsText || ''}</div>
+                                <small style="color:var(--primary); font-weight:bold;">${item.price} ج.م</small>
+                            </div>
+                            <button onclick="removeCartIndex(${idx})" style="border:none; background:none; color:red; cursor:pointer;">إلغاء ✕</button>
+                        </div>
+                    `;
+                });
+            }
+            refreshCartTotal();
+            openModal('cartModal');
+        }
+
+        function removeCartIndex(idx) {
+            userCart.splice(idx, 1);
+            updateCartCounter();
+            openCartModal();
+        }
+
+        function applyPromoCode() {
+            const val = document.getElementById('couponCode').value.trim();
+            if(val.toUpperCase() === 'KAYAN2026') {
+                discountRate = 0.20;
+                alert('عظيم! تم تطبيق خصم 20% على إجمالي طلبك 🎉');
+                refreshCartTotal();
+            } else {
+                alert('كود الخصم غير صحيح!');
+            }
+        }
+
+        // احتساب الإجمالي مع إضافة رسوم التوصيل الصاروخي VIP
+        function refreshCartTotal() {
+            let sum = userCart.reduce((total, cur) => total + cur.price, 0);
+            if(discountRate > 0) sum = sum - (sum * discountRate);
+
+            const isTurbo = document.querySelector('input[name="deliverySpeed"]:checked')?.value === 'turbo';
+            const deliveryExtra = isTurbo ? 25 : 0;
+            const finalAmount = sum + deliveryExtra;
+
+            let label = `${finalAmount.toFixed(0)} ج.م`;
+            if (isTurbo) {
+                label += ' (شامل +25 ج.م توصيل صاروخي VIP 🚀)';
+            } else if (discountRate > 0) {
+                label += ' (شامل الخصم 20%)';
+            }
+
+            document.getElementById('finalCartAmount').innerText = label;
+        }
+
+        function sendOrderToKitchen() {
+            const name = document.getElementById('orderCustName').value.trim();
+            const phone = document.getElementById('orderCustPhone').value.trim();
+            const address = document.getElementById('orderCustAddress').value.trim();
+            const payType = document.querySelector('input[name="paymentType"]:checked').value;
+            const isTurbo = document.querySelector('input[name="deliverySpeed"]:checked')?.value === 'turbo';
+
+            if(!name || !phone) {
+                alert("من فضلك اكتب الاسم ورقم الموبايل!");
+                return;
+            }
+            if(userCart.length === 0) {
+                alert("السلة فارغة!");
+                return;
+            }
+
+            const orderPayload = {
+                orderNo: Math.floor(1000 + Math.random() * 9000),
+                time: new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }),
+                status: 'قيد الانتظار ⏳',
+                deliverySpeed: isTurbo ? '🚀 توصيل صاروخي VIP (أولوية قصوى)' : '🛵 توصيل عادي',
+                customer: { name, phone, address },
+                items: [...userCart],
+                paymentMethod: `${payType} - [${isTurbo ? '🚀 صاروخي VIP' : '🛵 عادي'}]`,
+                amount: document.getElementById('finalCartAmount').innerText
+            };
+
+            let ordersDB = JSON.parse(localStorage.getItem('abu_kayan_orders')) || [];
+            ordersDB.unshift(orderPayload);
+            localStorage.setItem('abu_kayan_orders', JSON.stringify(ordersDB));
+            
+            sessionStorage.setItem('last_customer_order', orderPayload.orderNo);
+
+            alert(`ألف هنا وشفا يا ${name}! تم إرسال طلبك برقم #${orderPayload.orderNo}.\n${isTurbo ? '⚡ طلبك مصنف كأولوية قصوى بتوصيل صاروخي VIP!' : ''}\nسننقلك الآن لصفحة متابعة الطلب لايف.`);
+            userCart = [];
+            discountRate = 0;
+            updateCartCounter();
+            closeModal('cartModal');
+
+            document.getElementById('trackOrderInput').value = orderPayload.orderNo;
+            switchPage('track');
+            searchTrackOrder();
+        }
+
+        function searchTrackOrder() {
+            const searchNo = document.getElementById('trackOrderInput').value.trim();
+            const orders = JSON.parse(localStorage.getItem('abu_kayan_orders')) || [];
+            const found = orders.find(o => String(o.orderNo || o.orderId) === String(searchNo));
+
+            if (!found) {
+                document.getElementById('trackDetailsBox').innerHTML = `<p style="text-align:center; color:red; font-weight:bold;">عذراً، لم نجد أي طلب مسجل برقم #${searchNo}</p>`;
+                updateTrackerUI('none');
+                return;
+            }
+
+            updateTrackerUI(found.status || 'قيد الانتظار');
+
+            document.getElementById('trackDetailsBox').innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <strong style="color:var(--primary); font-size:16px;">طلب #${found.orderNo || found.orderId}</strong>
+                    <span style="font-size:13px; color:var(--text-muted);">⏰ ${found.time}</span>
+                </div>
+                <div><strong>اسم العميل:</strong> ${found.customer.name}</div>
+                <div><strong>نوع التوصيل:</strong> <span style="color:#D97706; font-weight:bold;">${found.deliverySpeed || '🛵 عادي'}</span></div>
+                <div><strong>عنوان التوصيل:</strong> ${found.customer.address || 'استلام بالمطعم'}</div>
+                <div><strong>الحالة الحالية:</strong> <span style="font-weight:900; color:var(--primary);">${found.status}</span></div>
+                <div style="margin-top:8px; border-top:1px dashed #CBD5E1; padding-top:6px;">
+                    <strong>الأصناف:</strong>
+                    ${found.items.map(i => `<span style="background:white; border:1px solid #CBD5E1; padding:2px 8px; border-radius:6px; font-size:12px; margin:2px; display:inline-block;">${i.name} ${i.addonsText || ''}</span>`).join('')}
+                </div>
+            `;
+        }
+
+        function updateTrackerUI(status) {
+            const line = document.getElementById('trackerLineFill');
+            const nodes = [1, 2, 3, 4].map(n => document.getElementById(`stepNode${n}`));
+            nodes.forEach(node => { node.classList.remove('active', 'completed'); });
+
+            if (status.includes('الانتظار')) {
+                line.style.width = '0%';
+                nodes[0].classList.add('active');
+            } else if (status.includes('التحضير') || status.includes('المطبخ')) {
+                line.style.width = '33%';
+                nodes[0].classList.add('completed');
+                nodes[1].classList.add('active');
+            } else if (status.includes('الدليفري') || status.includes('الطريق')) {
+                line.style.width = '66%';
+                nodes[0].classList.add('completed');
+                nodes[1].classList.add('completed');
+                nodes[2].classList.add('active');
+            } else if (status.includes('التسليم') || status.includes('بنجاح')) {
+                line.style.width = '100%';
+                nodes[0].classList.add('completed');
+                nodes[1].classList.add('completed');
+                nodes[2].classList.add('completed');
+                nodes[3].classList.add('completed');
+            }
+        }
+
+        function startLiveTrackerSync() {
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'abu_kayan_orders') {
+                    const currentTracked = document.getElementById('trackOrderInput').value.trim();
+                    if (currentTracked) {
+                        searchTrackOrder();
+                    }
+                }
+            });
+        }
+
+        function authDeveloper() {
+            if (isDevAuthorized) {
+                openModal('devModal');
+                return;
+            }
+            const pass = prompt("أدخل كلمة المرور لإدارة وتعديل الأصناف:");
+            if (pass === "01122278442") {
+                isDevAuthorized = true;
+                document.getElementById('devActiveBanner').style.display = 'flex';
+                renderFeaturedHome();
+                renderFullMenu();
+                openModal('devModal');
+            } else if (pass !== null) {
+                alert("كلمة المرور غير صحيحة!");
+            }
+        }
+
+        function lockDevMode() {
+            isDevAuthorized = false;
+            document.getElementById('devActiveBanner').style.display = 'none';
+            closeModal('devModal');
+            renderFeaturedHome();
+            renderFullMenu();
+            alert("تم قفل وضع التعديل والحذف بنجاح! الموقع الآن محمي برقم سري وفي وضع العميل 🔒");
+        }
+
+        // إضافة صنف مع التحديث التلقائي الفوري لكافة الشاشات
+        function saveNewItemFromDev() {
+            const name = document.getElementById('devItemName').value.trim();
+            const category = document.getElementById('devItemCategory').value;
+            const price = parseFloat(document.getElementById('devItemPrice').value);
+            const desc = document.getElementById('devItemDesc').value.trim();
+            const img = uploadedImageBase64 || document.getElementById('devItemImg').value.trim() || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600';
+
+            if (!name || isNaN(price)) {
+                alert("يرجى إدخال اسم الصنف والسعر بدقة!");
+                return;
+            }
+
+            const newItem = { id: Date.now(), name, category, price, desc, img };
+            menuData.unshift(newItem); // إضافة الصنف في البداية
+            localStorage.setItem('abu_kayan_items', JSON.stringify(menuData));
+
+            // تصفير الخانات
+            uploadedImageBase64 = "";
+            document.getElementById('devItemFileInput').value = "";
+            document.getElementById('devImagePreview').style.display = "none";
+            document.getElementById('devItemName').value = "";
+            document.getElementById('devItemPrice').value = "";
+            document.getElementById('devItemDesc').value = "";
+            document.getElementById('devItemImg').value = "";
+
+            alert(`تم حفظ الصنف "${name}" وتحديث القائمة تلقائياً! ✅`);
+            closeModal('devModal');
+            
+            // تحديث العرض فورياً
+            renderFeaturedHome();
+            renderFullMenu();
+        }
+
+        // حذف صنف مع التحديث الفوري
+        function deleteFoodItem(id) {
+            if (confirm("هل تريد حذف هذا الصنف نهائياً من قائمة طعام المطعم؟")) {
+                menuData = menuData.filter(i => i.id !== id);
+                localStorage.setItem('abu_kayan_items', JSON.stringify(menuData));
+                
+                // تحديث الشاشة تلقائياً
+                renderFeaturedHome();
+                renderFullMenu();
+            }
+        }
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    </script>
+</body>
+</html>
